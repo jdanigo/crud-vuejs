@@ -34,10 +34,15 @@ authController.loginAction = async (req, res) =>{
           );
           return res.status(200).json({
             message: "Auth successful",
-            token: token
+            token: token,
+            userData: {
+              fullname: user[0].firstName + ' ' + user[0].lastName,
+              email: user[0].email,
+              image: user[0].image
+            }
           });
         }
-        res.status(401).json({
+        res.status(400).json({
           message: "Auth failed"
         });
       });

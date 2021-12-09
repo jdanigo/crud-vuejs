@@ -4,7 +4,8 @@ import morgan from "morgan";
 import apiRouter from './routes/api';
 import connectMongo from "./config/dbConnect";
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swaggerDocs'
+import swaggerDocument from './swaggerDocs';
+import cors from 'cors';
 const app = express();
 
 // Production enviroment
@@ -16,7 +17,8 @@ app.use(morgan("dev"));
 
 //Connect Mongo
 connectMongo();
-
+//enable cors
+app.use(cors({ origin: '*' }));
 //routes
 app.use("/api", apiRouter);
 //routes docs

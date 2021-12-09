@@ -11,7 +11,8 @@ const userSchema = new schema({
     },
     image: {
         type: String,
-        required: false
+        required: false,
+        default: ''
     },
     email: {
         type: String,
