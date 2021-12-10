@@ -1,15 +1,20 @@
 <template>
 <div>
   <b-navbar toggleable="lg" type="light" variant="light">
-    <b-navbar-brand href="#"><img src="../assets/logoonegroup.png" width="100px"></b-navbar-brand>
+    <b-navbar-brand router-link to="/" ><img src="../assets/logoonegroup.png" width="100px"></b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item href="#">Productos</b-nav-item>
-        <b-nav-item href="#">Usuarios</b-nav-item>
-        
+        <b-nav-item-dropdown right>
+          <!-- Using 'button-content' slot -->
+          <template #button-content>
+            <em>Productos</em>
+          </template>
+          <b-dropdown-item router-link to="/productos" >Listar</b-dropdown-item>
+          <b-dropdown-item router-link to="/productos/nuevo" >Crear</b-dropdown-item>
+        </b-nav-item-dropdown>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -17,9 +22,9 @@
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
           <template #button-content>
-            <em>Bienvenido</em>
+            <em>Bienvenido {{usuarioDB.fullName}}</em>
           </template>
-          <b-dropdown-item href="#">Perfil</b-dropdown-item>
+          <b-dropdown-item router-link :to="'/perfil/editar/'+usuarioDB.userId" >Perfil</b-dropdown-item>
           <b-dropdown-item href="#" @click="cerrarSesion()" v-if="estaActivo">Salir</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -35,7 +40,7 @@ export default {
     ...mapActions(['cerrarSesion'])
   },
   computed:{
-    ...mapGetters(['estaActivo'])
+    ...mapGetters(['estaActivo', 'usuarioDB'])
   }
 }
 

@@ -48,6 +48,7 @@ export default new Vuex.Store({
 
   },
   getters:{
-    estaActivo: state => !!state.token
+    estaActivo: state => !!state.token,
+    usuarioDB: state => state.usuarioDB
   }
 })

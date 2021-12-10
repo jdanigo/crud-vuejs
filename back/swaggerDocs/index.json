@@ -61,6 +61,32 @@
                 ],
                 "x-codegen-request-body-name": "body"
             },
+            
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Return all products",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Products"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/products/{id}": {
             "put": {
                 "tags": [
                     "Products"
@@ -88,18 +114,6 @@
                         }
                     }
                 },
-                "security": [
-                    {
-                        "api_key": []
-                    }
-                ],
-                "x-codegen-request-body-name": "body"
-            },
-            "get": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Return all products",
                 "parameters": [
                     {
                         "name": "id",
@@ -111,21 +125,13 @@
                         }
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Products"
-                                }
-                            }
-                        }
+                "security": [
+                    {
+                        "api_key": []
                     }
-                }
-            }
-        },
-        "/products/{id}": {
+                ],
+                "x-codegen-request-body-name": "body"
+            },
             "get": {
                 "tags": [
                     "Products"
@@ -237,7 +243,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             }
         },
         "/users/{id}": {
@@ -313,7 +324,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -342,7 +358,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             }
         },
         "/auth/login": {
@@ -372,13 +393,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "api_key": []
-                    }
-                ],
-                "x-codegen-request-body-name": "body"
+                }
             }
             
             

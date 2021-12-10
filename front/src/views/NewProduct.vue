@@ -10,22 +10,14 @@
       {{msg}}
           </b-alert>
           <b-card
-          title="EDITAR PERFIL">
+          :title="this.id ? 'EDITAR PRODUCTO' : 'NUEVO PRODUCTO' ">
 
             <b-form @submit="onSubmit">
-              <b-form-group label="Nombres:" label-for="input-1">
+              <b-form-group label="Nombre:" label-for="input-1">
                 <b-form-input
-                  v-model="form.firstName"
+                  v-model="form.name"
                   type="text"
-                  placeholder="Nombres"
-                  required
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group label="Apellidos:" label-for="input-1">
-                <b-form-input
-                  v-model="form.lastName"
-                  type="text"
-                  placeholder="Apellidos"
+                  placeholder="Nombre"
                   required
                 ></b-form-input>
               </b-form-group>
@@ -33,30 +25,22 @@
               <b-form-group label="Imagen:" label-for="input-1">
               <input type="file" @change="uploadImage" class="form-control">  
               </b-form-group>
-
-              <b-form-group label="Correo:" label-for="input-1">
+              <b-form-group label="Precio:" label-for="input-1">
                 <b-form-input
-                  v-model="form.email"
-                  type="text"
-                  placeholder="Correo"
+                  v-model="form.price"
+                  type="number"
+                  placeholder="Precio"
                   required
                 ></b-form-input>
               </b-form-group>
 
-              <b-form-group label="Contraseña:" label-for="input-1">
+              <b-form-group label="Calificacion:" label-for="input-1">
                 <b-form-input
-                  v-model="form.password"
-                  type="text"
-                  placeholder="Dejar en blanco si no desea cambiarla"
-                  
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group label="Telefono:" label-for="input-1">
-                <b-form-input
-                  v-model="form.phone"
-                  type="text"
-                  placeholder="Telefono"
+                  v-model="form.review"
+                  type="number"
+                  min="1"
+                  max="5"
+                  placeholder="Califacion"
                   required
                 ></b-form-input>
               </b-form-group>
@@ -79,12 +63,10 @@ export default {
   data() {
     return {
       form: {
-        firstName: "",
-        lastName: "",
+        name: "",
         image: "",
-        email: "",
-        phone: "",
-        password: undefined,
+        price: "",
+        review: "",
       },
       id: null,
       showAlert: false, 
@@ -97,22 +79,21 @@ export default {
   },
   methods: {
     
-    getProfile() {
+    getProduct() {
       this.loading = true;
       axios({
         method: 'GET',
-        url: process.env.VUE_APP_BASE_URL+'/users/'+this.id,
+        url: process.env.VUE_APP_BASE_URL+'/products/'+this.id,
         data: this.form,
         headers : {token: this.token},
       })
       .then(response =>{
         this.loading = false;
-        const { firstName , lastName, image, email, phone} = response.data.data;
-          this.form.firstName = firstName;
-          this.form.lastName = lastName;
-          this.form.email = email;
+        const { name , image, price, review} = response.data.data;
+          this.form.name = name;
           this.form.image = image;
-          this.form.phone = phone;
+          this.form.price = price;
+          this.form.review = review;
       })
       .catch(error =>{
         this.loading = false;
@@ -126,7 +107,7 @@ export default {
       event.preventDefault();
       axios({
         method: this.id ? 'PUT' : 'POST',
-        url: this.id ? process.env.VUE_APP_BASE_URL+'/users/'+this.id : process.env.VUE_APP_BASE_URL+'/users',
+        url: this.id ? process.env.VUE_APP_BASE_URL+'/products/'+this.id : process.env.VUE_APP_BASE_URL+'/products',
         data: this.form,
         headers: {token: this.token},
       })
@@ -165,7 +146,7 @@ export default {
   created() {
     this.id = this.$route.params.id;
     if(this.id){
-      this.getProfile();
+      this.getProduct();
     }
   }
 };

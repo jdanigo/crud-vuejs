@@ -17,7 +17,7 @@ usersController.getAction = async (req, res) =>{
       } catch (error) {
         return res
           .status(500)
-          .json({ error: error.toString() });
+          .json({ message: error.toString() });
       }
 }
 
@@ -28,7 +28,7 @@ usersController.getAllAction = async (req, res) => {
       } catch (error) {
         return res
           .status(500)
-          .json({ error: error.toString() });
+          .json({ message: error.toString() });
       }
 }
 
@@ -58,7 +58,7 @@ usersController.createAction = async (req, res)=>{
               password: hash
             });
             let { password, __v, ...user } = newUser.toObject();
-            return res.status(201).json({ data: user });
+            return res.status(201).json({ data: user, message: 'User Created Successfully' });
           }
         });
       }
@@ -80,14 +80,25 @@ usersController.updateAction = async (req, res)=>{
         }
         Object.assign(user, req.body);
         await user.save();
-        return res.json(user);
+        return res.json({data: user, message: "User Updated Successfully"});
       } catch (error) {
-        return res.status(500).json({ error: error.toString() });
+        return res.status(500).json({ message: error.toString() });
       }
 }
 
-usersController.deleteAction = async () => {
-
+usersController.deleteAction = async (req, res) => {
+  const {id} = req.params;
+  try {
+    let user = await usersModel.findByIdAndRemove(id);
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "User not found" });
+    }
+    return res.json({ message: "User deleted successfully!" });
+  } catch (error) {
+    return res.status(500).json({ message: error.toString() });
+  }
 }
 
 export default usersController;
